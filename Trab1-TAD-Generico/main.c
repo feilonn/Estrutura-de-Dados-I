@@ -17,7 +17,7 @@ int main(void){
        // scanf("%d",&usuario); // Funcao do arquivo menu.c. Um simples menu para interacao do usuario com o switch
 
         usuario = escolha();
-        while(usuario < 1 || usuario > 5){ // teste switch
+        while(usuario < 1 || usuario > 6){ // teste switch
             printf("\nOperacao invalida! Insira uma opcao correspondente ao menu abaixo;");
            // scanf("%d", &usuario);
             usuario = escolha();
@@ -141,7 +141,7 @@ int main(void){
             break;
         case 5: // Destruir colecaoo
             if(c == NULL){
-                printf("\nAinda nao existe uma colecao. Crie uma antes de tentar destrui-la");
+                printf("\nAinda nao existe uma colecao. Crie uma antes de tentar destrui-la.");
                 break;
             }
 
@@ -149,6 +149,20 @@ int main(void){
                 printf("\nColecao destruida!");
             }else{
                 printf("\nOcorreu um erro!");
+            }
+            break;
+        case 6:
+            if(c == NULL){
+                printf("\nAinda nao existe uma colecao. Crie uma e insira jogadores antes de tentar listar.");
+                break;
+            }else if(c->numItens == 0){
+                printf("\nErro! A colecao esta vazia");
+                break;
+            };
+             printf("\n-=-=-=-=-Jogadores Matriculados-=-=-=-=-");
+            for(int i = 0; i < c->numItens; i++){
+                printf("\n\n-=-=-=-=-Dados do Jogador-=-=-=-=-");
+                mostraPlayer(c->itens[i]);
             }
             break;
         default:
