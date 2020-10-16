@@ -9,18 +9,19 @@ typedef struct _colecao_{
 }Colecao;
 
 //Definição da coleção de qualquer cosia
-typedef struct _qqcoisa_{
+typedef struct _jogador_{
     char nome[100];
-    int num;
-    float real;
-}Qqcoisa;
+    int matricula;
+    float mediaPontos;
+}Jogador;
 
 //Chamda de Funções da Colecao
-Colecao *colCriar(int tam);
-int colInserir(Colecao *bau, void *item);
-void* colBusca(Colecao *bau, void *key, int (*cmp)(void *, void *));
-void* colRemove(Colecao *bau, void *key, int (*cmp)(void *, void *));
-int colDestroi(Colecao *bau);
+Colecao *colCriar(int maxItens);
+int colInserir(Colecao *c, void *item);
+void* colBusca(Colecao *c, void *key);
+void* colRemove(Colecao *c, void *key);
+int colDestroi(Colecao *c);
+int cmp(void *elm, void *key)
 
 /*
 typedef struct _Colecao_{
@@ -30,3 +31,10 @@ typedef struct _Colecao_{
 }Colecao;
 */
 
+/*
+void mostraElm(Qqcoisa *elm){
+    printf("\nNome: %s", elm->nome);
+    printf("\nMatricula: %s", elm->num);
+    printf("\nAltura: %s", elm->real);
+};
+*/
