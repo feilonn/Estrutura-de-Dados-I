@@ -8,20 +8,20 @@ typedef struct _colecao_{
     void **itens;
 }Colecao;
 
-//Definição da coleção de qualquer cosia
+//Defini��o da cole��o de qualquer cosia
 typedef struct _jogador_{
     char nome[100];
     int matricula;
     float mediaPontos;
 }Jogador;
 
-//Chamda de Funções da Colecao
+//Chamda de Fun��es da Colecao
 Colecao *colCriar(int maxItens);
 int colInserir(Colecao *c, void *item);
 void* colBusca(Colecao *c, void *key);
 void* colRemove(Colecao *c, void *key);
-int colDestroi(Colecao *c);
-int cmp(void *elm, void *key)
+int colDestruir(Colecao *c);
+int cmp(void *elm, void *key);
 
 /*
 typedef struct _Colecao_{
