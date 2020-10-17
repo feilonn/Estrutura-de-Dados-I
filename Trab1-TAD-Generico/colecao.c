@@ -2,7 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "colecao.h"
-//Fun��es da cole��o
+
+typedef struct _colecao_{
+    int numItens;
+    int maxItens;
+    void **itens;
+}Colecao;
 
 Colecao *colCriar(int maxItens){
     Colecao *c;
@@ -48,16 +53,63 @@ int colInserir(Colecao *c, void *item){
     return 0;
 }
 
-int cmp(void *elm, void *key){ // Funcao compara baseada na matricula(int)
-    int pkey = (int)key;
-    Jogador *pelm = (Jogador*)elm;
-
-    if(pkey == pelm->matricula){
-        return 1;
-    }else{
-        return 0;
+void *colBusca(Colecao *c, void *key, int(*cmp)(void* elm, void* key)){
+       
+    if(c!= NULL){
+        if(c->itens != NULL){
+            if(c->numItens > 0){
+                for(int i = 0; i < c->numItens; i++){
+                    if(cmp(c->itens[i], key) == 1){
+                        return key;
+                    }
+                }
+                return 0;
+            }
+        }
     }
 }
+
+void *colRemove(Colecao *c, void *key, int(*cmp)(void* elm, void* key)){
+
+    void* aux;
+
+    if(c!= NULL){
+        if(c->itens != NULL){
+            if(c->numItens > 0){
+                for(int i = 0; i < c->numItens; i++){
+                    if(cmp(c->itens[i], key) == 1){
+                        aux = c->itens[i];
+                        while(i < c->numItens){
+                            c->itens[i] = c->itens[i+1];
+                            i++;
+                        }
+                        c->numItens--;
+                        return aux;
+                    }
+                }
+            }
+        }
+    }
+    return NULL;
+}
+
+void *mostraPlayer(Colecao *c, void (*mostraTodos)(void* elm)){
+    if(c != NULL){
+        if(c->itens != NULL){
+            if(c->numItens > 0){
+                 for(int i = 0; i < c->numItens; i++){
+                    mostraTodos(c->itens[i]);
+                    return 1;
+                }
+            }
+        }
+    }
+    return NULL; 
+} 
+
+
+
+
 
 /*
 int cmpNome(void *elm, void *key){ // Funcao compara baseada no nome(char)
@@ -81,48 +133,3 @@ int cmpMedia(void *elm, void *key){ // Funcao compara baseada na media de pontos
     };
 };
 */
-void *colBusca(Colecao *c, void *key){
-
-    void* aux;
-    int buscaMatricula;
-
-    if(c!= NULL){
-        if(c->itens != NULL){
-            if(c->numItens > 0){
-                for(int i = 0; i < c->numItens; i++){
-                    buscaMatricula = cmp(c->itens[i], key); // chamada da fun��o cmp para matricula(int)
-                    if(buscaMatricula == 1){
-                        aux = c->itens[i];
-                        return aux;
-                    }
-                }
-            }
-        }
-    }
-    return NULL;
-}
-
-void *colRemove(Colecao *c, void *key){
-
-    void* aux;
-    int removeComMatricula;
-
-    if(c!= NULL){
-        if(c->itens != NULL){
-            if(c->numItens > 0){
-                for(int i = 0; i < c->numItens; i++){ // busca o item para remover
-                    removeComMatricula = cmp(c->itens[i], key);
-                    if(removeComMatricula == 1){
-                        aux = c->itens[i];
-                        for(int j = i; j < c->numItens; j++){  // Um item saiu, os outros tambem atualizam a posicao
-                            c->itens[j] = c->itens[j+1];
-                        }
-                        c->numItens--; // Um item sai, numItens decrementa
-                        return aux;
-                    }
-                }
-            }
-        }
-    }
-    return NULL;
-}

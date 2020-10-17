@@ -2,13 +2,6 @@
 #include <stdlib.h>
 //#include "colecao.h"
 
-void mostraPlayer (Jogador *player){
-    printf("\nNome:  %s", player->nome);
-    printf("\nMatricula:  %i", player->matricula);
-    printf("\nMedia de pontos por partida:  %.2f", player->mediaPontos);
-}
-
-
 int escolha(){
 
     int escolha;
