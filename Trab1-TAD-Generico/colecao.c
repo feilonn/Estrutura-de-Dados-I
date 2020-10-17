@@ -63,10 +63,10 @@ void *colBusca(Colecao *c, void *key, int(*cmp)(void* elm, void* key)){
                         return key;
                     }
                 }
-                return 0;
             }
         }
     }
+    return NULL;
 }
 
 void *colRemove(Colecao *c, void *key, int(*cmp)(void* elm, void* key)){
@@ -99,7 +99,6 @@ void *mostraPlayer(Colecao *c, void (*mostraTodos)(void* elm)){
             if(c->numItens > 0){
                  for(int i = 0; i < c->numItens; i++){
                     mostraTodos(c->itens[i]);
-                    return 1;
                 }
             }
         }

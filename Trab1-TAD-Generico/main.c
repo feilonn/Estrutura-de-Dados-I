@@ -21,9 +21,9 @@ void mostraTodos (void *elm){
 int cmp(void *elm, void *key){ // Funcao compara baseada na matricula(int)
     
     Jogador *pelm = (Jogador*)elm;
-    int *pkey = (int*)key;
+    int  *pkey = (int*)key;
     
-    if(pelm->matricula == pkey){
+    if(pelm->matricula == *pkey){
         return 1;
     }else{
         return 0;
@@ -115,9 +115,9 @@ int main(void){
             printf("\nInforme a matricula do jogador a ser procurado: ");
             scanf("%i", &matricula);
 
-            int buscaPlayer = colBusca(c, matricula, cmp);
-            if(buscaPlayer == matricula){
-                printf("\nErro! nao foi possivel executar a busca");
+            int* buscaPlayer = colBusca(c, (void*)&matricula, cmp);
+            if(buscaPlayer != NULL){
+                printf("\nO jogador esta na reserva!");
                 break;
             }else{
                 printf("\nO jogador nao foi encontrado na reserva!");
@@ -135,9 +135,14 @@ int main(void){
             printf("\nInforme a matricula do jogador a ser removido: ");
             scanf("%i", &pegaMatricula);
 
-            int removePlayer = colRemove(c, pegaMatricula, cmp);
-            if(removePlayer == NULL){
-                printf("\nErro!");
+            int* removePlayer = colRemove(c, (void*)&pegaMatricula, cmp);
+            if(qtdePlayer == 0){
+                printf("\nNao existem jogadores na reserva!");
+                break;
+            }
+            if(removePlayer != NULL){
+                printf("\nO jogador foi removido!");
+                qtdePlayer--;
                 break;
             }else{
                 printf("\nNao foi possivel encontrar o jogador");
@@ -150,7 +155,7 @@ int main(void){
             }
 
             if(colDestruir(c) == 1){
-                printf("\nReserva destruida!");
+                printf("\nReserva foi aposentada!");
             }else{
                 printf("\nOcorreu um erro!");
             }
@@ -170,7 +175,7 @@ int main(void){
             printf("\nErro no sistema!");
             break;
         }
-
+        printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         printf("\nPara sair do sistema digite 0(Zero). Para continuar pressione qualquer outro numero: ");
         scanf("%i", &ativo);
     }
