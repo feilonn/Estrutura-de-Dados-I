@@ -66,15 +66,42 @@ int sllDestroy(Sllist *l){
     return 0;
 }
 
+
+void *sllRemoveSpec(Sllist *l, void *key, int(*cmp)(void*, void*)){
+    SlNode *spec, *prev;
+    void *data;
+    if(l != NULL){
+        if(l->first != NULL){
+            spec = l->first;
+            prev = NULL;
+            while(spec->next != NULL && cmp(spec->data, key) != 1){
+                prev = spec;
+                spec = spec->next;
+            }
+            if(cmp(spec->data, key) == 1){
+                data = spec->data;
+                if(spec == l->first){
+                    l->first = spec->next;
+                }else{
+                    prev->next = spec->next;
+                }
+                free(spec);
+                return data;
+            }
+        }
+    }
+    return NULL;
+}
+
 void *sllQuery(Sllist *l, void *key, int(*cmp)(void*, void*)){
     SlNode *cur;
     if(l != NULL){
         if(l->first != NULL){
             cur = l->first;
-            while(cur->next != NULL && cmp(key, cur->data) != 1){
+            while(cur->next != NULL && cmp(cur->data, key) != 1){
                 cur = cur->next;
             }
-            if(cmp(key, cur->data) == 1){
+            if(cmp(cur->data, key) == 1){
                 return cur->data;
             }
         }
@@ -83,16 +110,17 @@ void *sllQuery(Sllist *l, void *key, int(*cmp)(void*, void*)){
 }
 
 void *mostraPlayer(Sllist *l, void (*mostraTodos)(void* elm)){
-    SlNode *aux;
     SlNode *cur;
     void *view;
     if(l != NULL){
         if(l->first != NULL){
             cur = l->first;
+            mostraTodos(cur->data);
             while(cur->next != NULL){
-                mostraTodos(cur->data);
                 cur = cur->next;
+                mostraTodos(cur->data);
             }
+            
         }
     }
     return NULL; 

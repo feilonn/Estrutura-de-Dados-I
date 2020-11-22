@@ -10,24 +10,31 @@ typedef struct _jogador_{
 }Jogador;
 
 void mostraTodos(void *elm){
-    printf("Meia noite eu te conto.");
+    Jogador *player = (Jogador*)elm;
+    printf("\n~*Dados do jogador*~:");
+    printf("\nNome do Jogador: %s", player->nome);
+    printf("\nMatricula do Jogador: %i", player->matricula); // matricula sempre levado como um inteiro
+    printf("\nMedia de pontos do Jogador: %.2f", player->mediaPontos); // media de pontos como float
+    printf("\n-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
 }
 
 int cmp(void *elm, void *key){
     
     Jogador *pelm = (Jogador*)elm;
-    int  *pkey = (int*)key;
+    int *pkey = (int*)key;
+    
     if(pelm->matricula == *pkey){
         return 1;
     }else{
         return 0;
-    } 
+    }
 }
     
 int main(void){
     
     int ativo = -1;
-    int usuario, matricula, pegaMatricula;
+    int usuario, pegaMatricula, matricula;
+    char *nomePlayer, *nomePlayerRemove;
     int qtdeplayer = 0;
 
     Sllist *l;
@@ -95,7 +102,7 @@ int main(void){
 
                     int* buscaPlayer = sllQuery(l, (void*)&matricula, cmp);
                     if(buscaPlayer != NULL){
-                        printf("\nO jogador %i esta na reserva!", *buscaPlayer);
+                        printf("\nO jogador esta na reserva!");
                         break;
                     }else{
                         printf("\nO jogador nao foi encontrado na reserva!");
@@ -113,14 +120,25 @@ int main(void){
                     printf("\nInforme a matricula do jogador a ser removido: ");
                     scanf("%i", &pegaMatricula);
 
+                    int* removePlayer = sllRemoveSpec(l, (void*)&pegaMatricula, cmp);
+                    if(removePlayer != NULL){
+                        printf("\nO jogador foi removido da reserva!");
+                        qtdeplayer--;
+                        break;
+                    }else{
+                        printf("\nErro ao remover o jogador!");
+                    }
+
+                    /*
                     int* removePlayer = sllRemove(l);
                     if(removePlayer != NULL){
-                        printf("\nO jogador %i foi removido!", *removePlayer);
+                        printf("\nO jogador foi removido!");
                         qtdeplayer--;
                         break;
                     }else{
                         printf("\nNao foi possivel encontrar o jogador");
                     }
+                    */
                 break;
                 case 5:
                     if(l == NULL){
@@ -143,7 +161,7 @@ int main(void){
                         break;
                     };
                     printf("\n-=-=-=-=-Jogadores Matriculados-=-=-=-=-");
-                    printf("\nMeia noite eu te conto");
+                    mostraPlayer(l, mostraTodos);
                 break;
                 default:
                     printf("\nErro no sistema! Opcao invalida!");
